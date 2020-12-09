@@ -7,10 +7,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,6 +24,20 @@ class AuthserverApplicationTests {
 	private MockMvc mockMvc;
 
 	@Test
+	@DisplayName("The access token issues should have jti property.")
+	public void testJtiPresence() throws Exception {
+		mockMvc.perform(post("/oauth/token")
+				.queryParam("grant_type","password")
+				.queryParam("username","narif")
+				.queryParam("password","strongPassword")
+				.queryParam("scope","read")
+				.with(SecurityMockMvcRequestPostProcessors.httpBasic("clientId","clientSecret"))
+		)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.jti",is(notNullValue())));
+	}
+
+	@Test
 	@DisplayName("If proper client details and user details are provided, then access token should be returned.")
 	public void testValidTokenGen() throws Exception {
 		mockMvc.perform(post("/oauth/token")
@@ -29,7 +46,9 @@ class AuthserverApplicationTests {
 				.queryParam("password","strongPassword")
 				.queryParam("scope","read")
 				.with(SecurityMockMvcRequestPostProcessors.httpBasic("clientId","clientSecret"))
-		).andExpect(status().isOk());
+		)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.token_type",is("bearer")));
 	}
 
 	@Test
