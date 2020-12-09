@@ -47,6 +47,18 @@ class AuthserverApplicationTests {
 	private TestRestTemplate testRestTemplate;
 
 	@Test
+	@DisplayName("Should issue tokens for client credentials flow, in the absence of user(backend-backend interaction).")
+	public void testClientCredentials() throws Exception {
+		mockMvc.perform(post("/oauth/token")
+				.queryParam("grant_type","client_credentials")
+				.queryParam("scope","read")
+				.with(SecurityMockMvcRequestPostProcessors.httpBasic("machineClientId","machineClientSecret"))
+		)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.jti",is(notNullValue())));
+	}
+
+	@Test
 	@DisplayName("Issued JWTs must be valid JWT and must be signed with Private Key.")
 	public void testJwtSignature() throws JSONException {
 		final String uriString = getAuthTokenUrlWithQueryParams();

@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,17 +65,20 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     //<editor-fold desc="HELPER METHODS">
     private InMemoryClientDetailsService getInMemoryClientDetailsService() {
         var inMemoryClientDetailsService = new InMemoryClientDetailsService();
-        var baseClientDetails = getBaseClientDetails();
-        inMemoryClientDetailsService.setClientDetailsStore(Map.of("clientId",baseClientDetails));
+        var baseClientDetails = getBaseClientDetails("clientId","clientSecret",Set.of("read","write"),Set.of("password","authorization_code","refresh_token"));
+        var baseClientDetails2 = getBaseClientDetails("machineClientId","machineClientSecret",Set.of("read"),Set.of("client_credentials"));
+        inMemoryClientDetailsService.setClientDetailsStore(Map.of("clientId",baseClientDetails,"machineClientId",baseClientDetails2));
         return inMemoryClientDetailsService;
     }
 
-    private BaseClientDetails getBaseClientDetails() {
+    private BaseClientDetails getBaseClientDetails
+            (final String clientId, final String clientSecret,
+             final Collection<String> scopes, final Collection<String> grantTypes) {
         var clientDetails = new BaseClientDetails();
-        clientDetails.setClientId("clientId");
-        clientDetails.setClientSecret("clientSecret");
-        clientDetails.setScope(Set.of("read"));
-        clientDetails.setAuthorizedGrantTypes(Set.of("password"));
+        clientDetails.setClientId(clientId);
+        clientDetails.setClientSecret(clientSecret);
+        clientDetails.setScope(scopes);
+        clientDetails.setAuthorizedGrantTypes(grantTypes);
         return clientDetails;
     }
 //</editor-fold>
