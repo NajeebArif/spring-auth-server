@@ -32,7 +32,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Value("${keypair.storepass}")
     private String storepass;
 
-
     @Autowired
     private AuthenticationManager authenticationManagerBean;
 
@@ -91,5 +90,5 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         clientDetails.setRegisteredRedirectUri(redirectUri);
         return clientDetails;
     }
-//</editor-fold>
+    //</editor-fold>
 }
