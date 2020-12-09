@@ -65,8 +65,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     //<editor-fold desc="HELPER METHODS">
     private InMemoryClientDetailsService getInMemoryClientDetailsService() {
         var inMemoryClientDetailsService = new InMemoryClientDetailsService();
-        var baseClientDetails = getBaseClientDetails("clientId","clientSecret",Set.of("read","write"),Set.of("password","authorization_code","refresh_token"));
-        var baseClientDetails2 = getBaseClientDetails("machineClientId","machineClientSecret",Set.of("read"),Set.of("client_credentials"));
+        var baseClientDetails = getBaseClientDetails("clientId","clientSecret",
+                Set.of("read","write"),Set.of("password","authorization_code","refresh_token"),
+                Set.of("http://localhost:8181/greet"));
+        var baseClientDetails2 = getBaseClientDetails("machineClientId","machineClientSecret",
+                Set.of("read"),Set.of("client_credentials"));
         inMemoryClientDetailsService.setClientDetailsStore(Map.of("clientId",baseClientDetails,"machineClientId",baseClientDetails2));
         return inMemoryClientDetailsService;
     }
@@ -79,6 +82,13 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         clientDetails.setClientSecret(clientSecret);
         clientDetails.setScope(scopes);
         clientDetails.setAuthorizedGrantTypes(grantTypes);
+        return clientDetails;
+    }
+    private BaseClientDetails getBaseClientDetails
+            (final String clientId, final String clientSecret,
+             final Collection<String> scopes, final Collection<String> grantTypes, final Set<String> redirectUri) {
+        var clientDetails = getBaseClientDetails(clientId,clientSecret,scopes,grantTypes);
+        clientDetails.setRegisteredRedirectUri(redirectUri);
         return clientDetails;
     }
 //</editor-fold>
