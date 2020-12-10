@@ -17,4 +17,4 @@ insert ignore into grant_types(id,name, client) VALUES (2,'refresh_token',1);
 insert ignore into grant_types(id,name, client) VALUES (3,'authorization_code',1);
 insert ignore into grant_types(id,name, client) VALUES (4,'client_credentials',2);
 
-insert into redirect_url (id,url, client) VALUES (1,'http://localhost:8080/greet',1);
+insert ignore into redirect_url (id,url, client) VALUES (1,'http://localhost:8080/greet',1);
