@@ -1,4 +1,4 @@
-package narif.manslp.msoauth2.authserver.entities;
+package narif.manslp.msoauth2.authserver.entities.user;
 
 import javax.persistence.*;
 import java.util.Objects;

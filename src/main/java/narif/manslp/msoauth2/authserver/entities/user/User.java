@@ -1,4 +1,4 @@
-package narif.manslp.msoauth2.authserver.entities;
+package narif.manslp.msoauth2.authserver.entities.user;
 
 import narif.manslp.msoauth2.authserver.entities.enums.HashingAlgo;
 import narif.manslp.msoauth2.authserver.model.UserResource;

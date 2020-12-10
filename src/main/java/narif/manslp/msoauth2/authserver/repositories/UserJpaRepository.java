@@ -1,6 +1,6 @@
 package narif.manslp.msoauth2.authserver.repositories;
 
-import narif.manslp.msoauth2.authserver.entities.User;
+import narif.manslp.msoauth2.authserver.entities.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,8 +2,8 @@ package narif.manslp.msoauth2.authserver.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import narif.manslp.msoauth2.authserver.entities.Authority;
-import narif.manslp.msoauth2.authserver.entities.User;
+import narif.manslp.msoauth2.authserver.entities.user.Authority;
+import narif.manslp.msoauth2.authserver.entities.user.User;
 import narif.manslp.msoauth2.authserver.entities.enums.HashingAlgo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

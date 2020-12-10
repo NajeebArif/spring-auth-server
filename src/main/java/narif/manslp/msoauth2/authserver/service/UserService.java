@@ -1,6 +1,6 @@
 package narif.manslp.msoauth2.authserver.service;
 
-import narif.manslp.msoauth2.authserver.entities.User;
+import narif.manslp.msoauth2.authserver.entities.user.User;
 import narif.manslp.msoauth2.authserver.model.UserResource;
 import narif.manslp.msoauth2.authserver.repositories.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
