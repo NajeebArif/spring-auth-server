@@ -6,6 +6,9 @@ import narif.manslp.msoauth2.authserver.repositories.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
 
@@ -20,5 +23,9 @@ public class UserService {
     public UserResource saveUser(UserResource userResource) {
         final var user = userJpaRepository.save(userResource.mapToUser());
         return user.mapToUserResource();
+    }
+
+    public List<UserResource> getUsers(){
+        return userJpaRepository.findAll().stream().map(User::mapToUserResource).collect(Collectors.toList());
     }
 }
