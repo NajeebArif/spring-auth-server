@@ -8,10 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CustomClientDetails implements ClientDetails {
@@ -29,12 +26,12 @@ public class CustomClientDetails implements ClientDetails {
 
     @Override
     public Set<String> getResourceIds() {
-        return Collections.EMPTY_SET;
+        return Set.of(getClientSecret());
     }
 
     @Override
     public boolean isSecretRequired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -62,9 +59,14 @@ public class CustomClientDetails implements ClientDetails {
         return client.getRedirectUrls().stream().map(RedirectUrl::getUrl).collect(Collectors.toSet());
     }
 
+//    @Override
+//    public Collection<GrantedAuthority> getAuthorities() {
+//        return Arrays.asList(new SimpleGrantedAuthority("ROLE_CLIENT"));
+//    }
+
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return client.getScopes().stream().map(Scope::getName).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+        return client.getScopes().stream().map(s->"ROLE_"+s.getName()).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
     }
 
     @Override

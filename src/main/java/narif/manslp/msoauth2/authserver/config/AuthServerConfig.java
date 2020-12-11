@@ -1,15 +1,18 @@
 package narif.manslp.msoauth2.authserver.config;
 
+import narif.manslp.msoauth2.authserver.service.CustomClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -17,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -32,13 +36,17 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Value("${keypair.storepass}")
     private String storepass;
 
-    @Autowired
+    @Resource(name = "authenticationManagerBean")
     private AuthenticationManager authenticationManagerBean;
+
+    @Resource(name = "customClientDetailsService")
+    private ClientDetailsService clientDetailsService;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        final var inMemoryClientDetailsService = getInMemoryClientDetailsService();
-        clients.withClientDetails(inMemoryClientDetailsService);
+//        final var inMemoryClientDetailsService = getInMemoryClientDetailsService();
+//        clients.withClientDetails(inMemoryClientDetailsService);
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override
