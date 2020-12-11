@@ -2,6 +2,8 @@ package narif.manslp.msoauth2.authserver.entities.client;
 
 import lombok.Data;
 import narif.manslp.msoauth2.authserver.model.ClientResource;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class Client {
     private String clientSecret;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Scope> scopes = new ArrayList<>();
 
     public void addScope(Scope scope){
@@ -33,6 +36,7 @@ public class Client {
     }
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<GrantType> grantTypes = new ArrayList<>();
 
     public void addGrantType(GrantType grantType){
@@ -46,6 +50,7 @@ public class Client {
     }
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<RedirectUrl> redirectUrls = new ArrayList<>();
 
     public void addRedirectUrl(RedirectUrl redirectUrl){

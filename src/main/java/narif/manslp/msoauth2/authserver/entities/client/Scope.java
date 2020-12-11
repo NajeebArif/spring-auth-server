@@ -18,7 +18,7 @@ public class Scope {
     private String name;
 
     @JoinColumn(name = "client")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Client client;
 
     public Scope(String name){

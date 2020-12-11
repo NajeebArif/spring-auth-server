@@ -17,7 +17,8 @@ public class GrantType {
     private String name;
 
     @JoinColumn(name = "client")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+//    @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
 
     public GrantType(String name){
