@@ -2,6 +2,8 @@ package narif.manslp.msoauth2.authserver.entities.user;
 
 import narif.manslp.msoauth2.authserver.entities.enums.HashingAlgo;
 import narif.manslp.msoauth2.authserver.model.UserResource;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class User {
     private HashingAlgo algorithm;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Authority> authorities = new ArrayList<>();
 
     public UserResource mapToUserResource(){
